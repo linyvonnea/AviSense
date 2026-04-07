@@ -1,0 +1,66 @@
+\documentclass[runningheads]{llncs}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+
+\begin{document}
+
+\title{Classification of Selected Philippine Bird Species Using Acoustic Features and Classical Machine Learning}
+\titlerunning{Philippine Bird Species Classification}
+
+\author{Emmanuel Albeza \and Yvonne Lin \and Christalie Pategara}
+\institute{University of the Philippines Visayas\\
+\email{email1@up.edu.ph, yalin@up.edu.ph, email3@up.edu.ph}}
+
+\maketitle
+
+\begin{abstract}
+This study proposes a classical machine learning approach for the classification of selected Philippine bird species from audio recordings. The study will use recordings from the Xeno-canto bird sound repository, extract acoustic features such as Mel-frequency cepstral coefficients (MFCCs) and spectral descriptors, and compare traditional classifiers including Logistic Regression, Support Vector Machine, Random Forest, and XGBoost. The project aims to assess the feasibility of bird-call recognition for biodiversity monitoring and assisted species identification.
+\keywords{bird sound classification \and acoustic features \and machine learning \and Philippine birds}
+\end{abstract}
+
+\section{Description of the Project}
+
+This study proposes a classical machine learning model for classifying selected Philippine bird species from audio recordings. Bird vocalizations are suitable for biodiversity monitoring because passive acoustic monitoring provides an effective and non-invasive means of detecting vocally active species and can support broader temporal and spatial coverage than observer-based surveys in some settings \cite{szymanski2021,biffi2024,mosikidi2023}. Automated bird-call classification may therefore support ecological monitoring and species identification while reducing the effort required for manual review. To address this objective, the study will use recordings from Xeno-canto, a public wildlife sound repository that provides downloadable bird recordings and metadata \cite{xenocanto}.
+
+Bird-sound classification has practical applications in biodiversity assessment, passive acoustic monitoring, and educational tools for species recognition. Previous studies have shown that bird sounds can be classified using handcrafted acoustic features, particularly Mel-frequency cepstral coefficients (MFCCs), together with traditional machine learning models such as Support Vector Machines. Earlier work employed mel-cepstral and low-level acoustic parameters with SVM classifiers, while more recent studies have used MFCCs with ECOC-SVM and compared them with other traditional models, including Random Forest \cite{fagerlund2007,han2023}. Building on this body of work, the proposed study focuses on a selected subset of Philippine bird species and adopts classical machine learning methods.
+
+The study addresses the difficulty of species-level identification from field recordings, which typically requires manual effort and domain expertise. A successful classifier would demonstrate the feasibility of automated acoustic recognition as a support tool for biodiversity monitoring.
+\section{Proposed Method}
+
+% GPT GENERATED NI, SO PAKI RECHECK LANG AND REVISE AND STUFF 
+% The study will follow a classical machine learning pipeline consisting of data collection, preprocessing, feature extraction, model training, and evaluation.
+
+% First, audio recordings and metadata will be collected from Xeno-canto for selected Philippine bird species. The final species list will be determined based on recording availability, audio quality, and class balance in order to keep the dataset feasible within the project timeframe \cite{xenocanto}.
+
+% Second, the collected recordings will undergo preprocessing. This step will include standardizing the sampling rate, trimming or padding clips to a fixed duration, and excluding recordings with poor or unusable quality when necessary.
+
+% Third, handcrafted acoustic features will be extracted from each audio clip. These features will include MFCCs, spectral centroid, spectral bandwidth, spectral rolloff, zero-crossing rate, and root mean square (RMS) energy. Summary statistics such as the mean and standard deviation of each feature will be computed to produce fixed-length feature vectors. MFCCs are widely used acoustic descriptors and are directly supported by the librosa package \cite{librosa_mfcc}.
+
+% Finally, the study will compare several traditional machine learning classifiers, namely Logistic Regression, Support Vector Machine (SVM), Random Forest, and XGBoost. These models are appropriate because the extracted descriptors will be represented as tabular feature vectors, making them suitable for non-deep-learning classification. SVM is particularly relevant because prior bird-sound classification studies have reported strong results using MFCC-based representations with SVM-style classifiers, while more recent work has compared such methods with other traditional models \cite{fagerlund2007,han2023}.
+
+% Classical machine learning is appropriate for this study because the course emphasizes traditional machine learning methods, and the expected dataset size is more suitable for handcrafted feature extraction and tabular classifiers than for deep learning approaches.
+
+\section{Dataset}
+
+% GPT GENERATED NI, SO PAKI RECHECK LANG AND REVISE AND STUFF 
+% The primary dataset source for this study is the Xeno-canto bird sound repository. Xeno-canto is a publicly accessible archive of bird recordings and associated metadata, and it supports audio search and retrieval through both its website and API \cite{xenocanto}.
+
+% The dataset will consist of recordings from selected Philippine bird species. Rather than fixing the final species list at the outset, the study will curate a subset of species that satisfies practical requirements such as sufficient recording counts, acceptable recording quality, and manageable class balance. This strategy is intended to produce a realistic dataset for a small-scale multiclass classification task. The final subset is expected to include approximately five to eight Philippine bird species, depending on recording availability, audio quality, and class balance.
+
+% Since data preparation is a major component of machine learning, the study will also include dataset curation tasks such as metadata cleaning, noise screening, clip standardization, and the preparation of labeled feature tables for model training and testing.
+
+\section{Metrics of Evaluation}
+
+Because the task is a multiclass classification problem, model performance will be evaluated using accuracy, precision, recall, macro F1-score, and confusion matrices. Macro F1-score is particularly important because the class distribution may not be perfectly balanced. The study will use a stratified train-test split and cross-validation \cite{sklearn_f1}.
+
+\section{Tools and Packages}
+
+% GPT GENERATED NI, SO PAKI RECHECK LANG AND REVISE AND STUFF 
+% The project will be implemented in Python using Jupyter Notebook and GitHub for development and version control. Audio preprocessing and feature extraction will be performed using librosa. Data handling and visualization will use NumPy, Pandas, Matplotlib, and Seaborn. Model training and evaluation will be conducted using scikit-learn, while XGBoost may be used as an additional gradient boosting classifier.
+
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}
