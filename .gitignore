@@ -14,11 +14,11 @@ __pycache__/
 Thumbs.db
 
 # Data
-data/raw/
-data/processed/
-*.wav
-*.mp3
-*.flac
+# data/raw/
+# data/processed/
+# *.wav
+# *.mp3
+# *.flac
 
 # Output files
 reports/figures/
