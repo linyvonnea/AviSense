@@ -4,6 +4,7 @@
 \usepackage{url}
 \usepackage{hyperref}
 
+
 \begin{document}
 
 \title{Classification of Selected Philippine Bird Species Using Acoustic Features and Classical Machine Learning}
@@ -11,7 +12,7 @@
 
 \author{Emmanuel Albeza \and Yvonne Lin \and Christalie Pategara}
 \institute{University of the Philippines Visayas\\
-\email{email1@up.edu.ph, yalin@up.edu.ph, email3@up.edu.ph}}
+\email{eaalbeza@up.edu.ph, yalin@up.edu.ph, chpategara@up.edu.ph}}
 
 \maketitle
 
@@ -29,18 +30,21 @@ Bird-sound classification has practical applications in biodiversity assessment,
 The study addresses the difficulty of species-level identification from field recordings, which typically requires manual effort and domain expertise. A successful classifier would demonstrate the feasibility of automated acoustic recognition as a support tool for biodiversity monitoring.
 \section{Proposed Method}
 
-% GPT GENERATED NI, SO PAKI RECHECK LANG AND REVISE AND STUFF 
-% The study will follow a classical machine learning pipeline consisting of data collection, preprocessing, feature extraction, model training, and evaluation.
+This study will follow a structured process comprising data collection, audio recording pre-processing, feature extraction, model training, and evaluation.
 
-% First, audio recordings and metadata will be collected from Xeno-canto for selected Philippine bird species. The final species list will be determined based on recording availability, audio quality, and class balance in order to keep the dataset feasible within the project timeframe \cite{xenocanto}.
+The data collection will be conducted by utilizing the Xeno-canto repository, from which metadata and audio recordings of selected Philippine bird species will be collected \cite{xenocanto}. The metadata provided by the repository, such as scientific names and song types, will be used later on to aid in the classification process. For the pre-processing, audio recordings will be standardized to a uniform sampling rate, trimmed or padded to ensure each clip has the same duration. Moreover, audio recordings that have poor or unusable audio quality will be removed during this step. 
 
-% Second, the collected recordings will undergo preprocessing. This step will include standardizing the sampling rate, trimming or padding clips to a fixed duration, and excluding recordings with poor or unusable quality when necessary.
+After pre-processing, the processed audio recordings will undergo feature extraction using Mel-frequency cepstral coefficients (MFCCs), a feature extraction technique widely used in audio classification tasks by converting an audio signal into a set of numerical coefficients \cite{librosa_mfcc,fagerlund2007}. This technique was chosen because previous studies have proven that it effectively correlates features and captures the unique vocal characteristics of birds by how sound is distributed across different frequencies. In addition to MFCCs, this step will also extract descriptive signal parameters \cite{fagerlund2007}:
 
-% Third, handcrafted acoustic features will be extracted from each audio clip. These features will include MFCCs, spectral centroid, spectral bandwidth, spectral rolloff, zero-crossing rate, and root mean square (RMS) energy. Summary statistics such as the mean and standard deviation of each feature will be computed to produce fixed-length feature vectors. MFCCs are widely used acoustic descriptors and are directly supported by the librosa package \cite{librosa_mfcc}.
+{
+\renewcommand{\labelitemi}{\small$\bullet$}
+\begin{itemize}
+  \item Spectral features: Describe the frequency characteristics of the bird and understand the shape and distribution of the sound’s spectrum.
+  \item Temporal features: Describe the intensity of the sound wave.
+\end{itemize}
+}
 
-% Finally, the study will compare several traditional machine learning classifiers, namely Logistic Regression, Support Vector Machine (SVM), Random Forest, and XGBoost. These models are appropriate because the extracted descriptors will be represented as tabular feature vectors, making them suitable for non-deep-learning classification. SVM is particularly relevant because prior bird-sound classification studies have reported strong results using MFCC-based representations with SVM-style classifiers, while more recent work has compared such methods with other traditional models \cite{fagerlund2007,han2023}.
-
-% Classical machine learning is appropriate for this study because the course emphasizes traditional machine learning methods, and the expected dataset size is more suitable for handcrafted feature extraction and tabular classifiers than for deep learning approaches.
+For model training and selection, this study will evaluate and compare different traditional machine learning classifiers, specifically Logistic Regression, Support Vector Machine (SVM), Random Forest, and XGBoost, to determine the most effective approach for the classification of selected Philippine bird species based on the dataset collected by this study.
 
 \section{Dataset}
 
@@ -68,8 +72,7 @@ Because the task is a multiclass classification problem, model performance will 
 
 \section{Tools and Packages}
 
-% GPT GENERATED NI, SO PAKI RECHECK LANG AND REVISE AND STUFF 
-% The project will be implemented in Python using Jupyter Notebook and GitHub for development and version control. Audio preprocessing and feature extraction will be performed using librosa. Data handling and visualization will use NumPy, Pandas, Matplotlib, and Seaborn. Model training and evaluation will be conducted using scikit-learn, while XGBoost may be used as an additional gradient boosting classifier.
+This study will be conducted in Python using the Jupyter Notebook environment for documentation and the development process, and GitHub for version control and to host the study repository. In terms of data handling and visualization, this study will utilize Pandas, Numpy, Matplotlib, and Seaborn. Furthermore, the librosa package will be the primary tool for audio processing and the extraction of MFCCs \cite{librosa_mfcc}. On the other hand, the scikit-learn library will be used to implement and compare the traditional machine learning classifiers through evaluation metrics.
 
 \bibliographystyle{splncs04}
 \bibliography{references}
