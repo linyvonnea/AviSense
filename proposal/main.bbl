@@ -16,6 +16,10 @@ Fagerlund, S.: Bird species recognition using support vector machines. EURASIP
 Han, X., et~al.: Bird sound classification based on ecoc-svm. Applied Acoustics
    (2023)
 
+\bibitem{librosa_mfcc}
+{librosa developers}: librosa.feature.mfcc --- librosa documentation.
+  \url{https://librosa.org/doc/main/generated/librosa.feature.mfcc.html} (2026)
+
 \bibitem{mosikidi2023}
 Mosikidi, T., et~al.: Passive acoustic monitoring detects new records of
   globally threatened birds in a high-elevation wetland. Bird Conservation
