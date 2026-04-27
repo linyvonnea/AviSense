@@ -1,0 +1,21 @@
+name: avisense
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - numpy
+  - pandas
+  - scikit-learn
+  - librosa
+  - soundfile
+  - matplotlib
+  - seaborn
+  - joblib
+  - tqdm
+  - pyyaml
+  - jupyter
+  - ipykernel
+  - pip:
+      - audioread

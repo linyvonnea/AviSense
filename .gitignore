@@ -2,27 +2,45 @@
 __pycache__/
 *.py[cod]
 *.pyo
-
-# Virtual env
+*.pyd
+.Python
 .venv/
+venv/
+env/
+ENV/
 
 # Jupyter
 .ipynb_checkpoints/
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
-# Data
-# data/raw/
-# data/processed/
-# *.wav
-# *.mp3
-# *.flac
+# Generated data
+data/interim/
+data/processed/
+outputs/
+models/
 
-# Output files
-reports/figures/
-reports/tables/
+# Audio files
+*.wav
+*.mp3
+*.flac
+*.m4a
+*.ogg
 
-# Misc
-.env
+# Logs
+*.log
+
+# LaTeX build files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot

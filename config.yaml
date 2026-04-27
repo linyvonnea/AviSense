@@ -1,0 +1,43 @@
+project:
+  name: AviSense
+  random_state: 42
+
+paths:
+  raw_data_dir: data/raw
+  interim_wav_dir: data/interim/wav
+  processed_dir: data/processed
+  metadata_dir: data/processed/metadata
+  features_dir: data/processed/features
+  splits_dir: data/processed/splits
+  models_dir: models
+  reports_dir: outputs/reports
+  figures_dir: outputs/figures
+  predictions_dir: outputs/predictions
+
+audio:
+  target_sample_rate: 22050
+  mono: true
+  duration_seconds: 10
+  segment_audio: false
+  segment_duration_seconds: 5
+  segment_overlap_seconds: 0
+
+features:
+  n_mfcc: 20
+  use_delta: true
+  use_delta_delta: true
+  use_spectral_features: true
+  use_temporal_features: true
+
+training:
+  test_size: 0.2
+  cv_folds: 5
+  random_state: 42
+  scoring: f1_macro
+
+models:
+  run_logistic_regression: true
+  run_svm: true
+  run_random_forest: true
+  run_knn: true
+  run_gradient_boosting: true
