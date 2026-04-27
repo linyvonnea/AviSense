@@ -4,24 +4,39 @@
 \providecommand{\doi}[1]{https://doi.org/#1}
 
 \bibitem{biffi2024}
-Biffi, S., et~al.: Using automated passive acoustic monitoring to measure changes in bird and bat vocal activity around hedgerows of different ages. Biological Conservation  (2024)
+Biffi, S., et~al.: Using automated passive acoustic monitoring to measure
+  changes in bird and bat vocal activity around hedgerows of different ages.
+  Biological Conservation  (2024)
 
 \bibitem{fagerlund2007}
-Fagerlund, S.: Bird species recognition using support vector machines. EURASIP Journal on Advances in Signal Processing  \textbf{2007}, ~1--8 (2007)
+Fagerlund, S.: Bird species recognition using support vector machines. EURASIP
+  Journal on Advances in Signal Processing  \textbf{2007}, ~1--8 (2007)
 
 \bibitem{han2023}
-Han, X., et~al.: Bird sound classification based on ecoc-svm. Applied Acoustics  (2023)
+Han, X., et~al.: Bird sound classification based on ecoc-svm. Applied Acoustics
+   (2023)
+
+\bibitem{librosa_mfcc}
+{librosa developers}: librosa.feature.mfcc --- librosa documentation.
+  \url{https://librosa.org/doc/main/generated/librosa.feature.mfcc.html} (2026)
 
 \bibitem{mosikidi2023}
-Mosikidi, T., et~al.: Passive acoustic monitoring detects new records of globally threatened birds in a high-elevation wetland. Bird Conservation International  (2023)
+Mosikidi, T., et~al.: Passive acoustic monitoring detects new records of
+  globally threatened birds in a high-elevation wetland. Bird Conservation
+  International  (2023)
 
 \bibitem{sklearn_f1}
-{scikit-learn developers}: f1\_score --- scikit-learn documentation. \url{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html} (2026)
+{scikit-learn developers}: f1\_score --- scikit-learn documentation.
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html}
+  (2026)
 
 \bibitem{szymanski2021}
-Szyma{\'n}ski, P., et~al.: Passive acoustic monitoring gives new insight into year-round habitat use by a cryptic threatened species. Ecological Indicators  (2021)
+Szyma{\'n}ski, P., et~al.: Passive acoustic monitoring gives new insight into
+  year-round habitat use by a cryptic threatened species. Ecological Indicators
+   (2021)
 
 \bibitem{xenocanto}
-{Xeno-canto Foundation}: Xeno-canto: Sharing wildlife sounds from around the world. \url{https://xeno-canto.org/} (2026)
+{Xeno-canto Foundation}: Xeno-canto: Sharing wildlife sounds from around the
+  world. \url{https://xeno-canto.org/} (2026)
 
 \end{thebibliography}
