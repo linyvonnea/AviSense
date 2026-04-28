@@ -16,11 +16,13 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Generated data
-data/interim/
-data/processed/
-outputs/
-models/
+
+
+# Raw audio/data only
+data/raw/
+# Keep processed features/results
+!data/interim/
+!data/processed/
 
 # Audio files
 *.wav
