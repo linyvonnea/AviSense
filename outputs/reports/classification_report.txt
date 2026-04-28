@@ -1,11 +1,11 @@
                         precision    recall  f1-score   support
 
-  Brachypteryx montana       0.70      0.58      0.64        12
-  Dicrurus balicassius       0.60      0.43      0.50        14
-Hypsipetes philippinus       0.61      0.78      0.68        18
-    Ninox philippensis       0.91      0.83      0.87        12
-  Phapitreron leucotis       0.76      0.87      0.81        15
+  Brachypteryx montana       1.00      0.42      0.59        12
+  Dicrurus balicassius       0.67      0.43      0.52        14
+Hypsipetes philippinus       0.52      0.89      0.65        18
+    Ninox philippensis       1.00      0.92      0.96        12
+  Phapitreron leucotis       1.00      1.00      1.00        15
 
-              accuracy                           0.70        71
-             macro avg       0.72      0.70      0.70        71
-          weighted avg       0.71      0.70      0.70        71
+              accuracy                           0.75        71
+             macro avg       0.84      0.73      0.74        71
+          weighted avg       0.81      0.75      0.74        71
