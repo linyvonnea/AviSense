@@ -1,2 +1,2 @@
 model,total_test_samples,correct_predictions,incorrect_predictions,accuracy,precision_macro,recall_macro,f1_macro
-xgboost_tuned,71,51,20,0.7183098591549296,0.7113636363636363,0.7080952380952381,0.706297335203366
+xgboost_tuned,71,51,20,0.7183098591549296,0.73,0.7058730158730159,0.7117282717282717

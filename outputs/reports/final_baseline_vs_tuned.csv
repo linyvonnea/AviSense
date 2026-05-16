@@ -1,3 +1,7 @@
-model,total_test_samples,correct_predictions,incorrect_predictions,accuracy,precision_macro,recall_macro,f1_macro
-xgboost_baseline,71,50,21,0.704225352112676,,,0.7
-xgboost_tuned,71,51,20,0.7183098591549296,0.7420005683432793,0.7112698412698413,0.7190445733128661
+experiment,stage,evaluation_level,model,total_test_samples,correct_predictions,incorrect_predictions,accuracy,precision_macro,recall_macro,f1_macro
+non_segmented,baseline,recording_level,random_forest,71,50,21,0.704225352112676,0.7541666666666667,0.6936507936507936,0.7010363098020882
+non_segmented,tuned,recording_level,xgboost_tuned,71,51,20,0.7183098591549296,0.73,0.7058730158730159,0.7117282717282717
+segmented,baseline,segment_level,extra_trees,188,145,43,0.7712765957446809,0.807797619047619,0.7611493896123879,0.7709065655509905
+segmented,baseline,recording_level_aggregated,extra_trees,71,56,15,0.7887323943661971,0.8297435897435899,0.7834920634920636,0.7921212121212122
+segmented,tuned,segment_level,extra_trees_segment_tuned,188,144,44,0.7659574468085106,0.8078425866495508,0.7555577275691128,0.7672760642923031
+segmented,tuned,recording_level_aggregated,extra_trees_segment_tuned,71,56,15,0.7887323943661971,0.8297435897435899,0.7834920634920636,0.7921212121212122
