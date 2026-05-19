@@ -97,7 +97,7 @@ Inspired by syllable-based segmentation approaches in previous bird recognition 
 
 \subsection{Time-Domain Features}
 
-In the segmented processing approach, the same MFCC, spectral, and temporal features were used as in the baseline. However, to better capture local acoustic characteristics, they were extracted independently for each segment to preserve local temporal structure. The extracted time-domain features:
+In the segmented processing approach, the same MFCC, spectral, and temporal features were used as in the baseline. However, to better capture local acoustic characteristics, they were extracted independently for each segment to preserve local temporal structure. The extracted time-domain features includes:
 \begin{itemize}
     \item \textbf{Signal energy} (RMS mean and standard deviation): measures the average energy of each segment and captures loudness variations across bird calls and silent intervals.
 
@@ -124,7 +124,7 @@ The final comparison between the baseline model (trained on recording-level feat
 
 \subsection{Dataset Distribution}
 
-The final dataset contained 354 recordings from five Philippine bird species. As shown in Figure~\ref{fig:species-distribution}, the class distribution was moderately imbalanced, with \textit{Hypsipetes philippinus} having the most recordings and \textit{Brachypteryx montana} having the fewest. This imbalance supports the use of macro-averaged metrics in addition to accuracy.
+The final dataset contained 355 recordings from five Philippine bird species. As shown in Figure~\ref{fig:species-distribution}, the class distribution was moderately imbalanced, with \textit{Hypsipetes philippinus} having the most recordings and \textit{Brachypteryx montana} having the fewest. This imbalance supports the use of macro-averaged metrics in addition to accuracy.
 
 
 \begin{figure}
@@ -188,7 +188,7 @@ SVM-RBF tuned & 0.7503 \\
 
 Although hyperparameter tuning improved the cross-validation performance of the baseline models, the held-out test results remained moderate. This suggests that model performance was influenced not only by hyperparameter choice, but also by the limited size, variability, and recording-level representation of the available audio recordings. Larger improvements were later observed after applying segment- feature extraction and recording-level aggregation.
 \subsection{Untuned Baseline Results}
-\begin{table}
+\begin{table}[h]
 \centering
 \caption{Classification report of the untuned baseline model on the held-out test set.}
 \label{tab:untuned_baseline_report}
@@ -208,7 +208,7 @@ Weighted average & 0.73 & 0.70 & 0.70 & 71 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
+\FloatBarrier
 Table~\ref{tab:untuned_baseline_report} results show that the untuned baseline model achieved moderate classification performance, with an overall accuracy of 0.70 and macro F1-score of 0.70.
 
 \begin{figure}
@@ -301,14 +301,16 @@ Segmented aggregated tuned (Extra Trees) & 0.789 & 0.792 \\
 \end{table}
 
 Table~\ref{tab:baseline-vs-segmented} compares the recording-level baseline and segmented aggregated models before and after hyperparameter tuning. The untuned baseline achieved an accuracy of 0.70 and a macro F1-score of 0.70, while the tuned baseline slightly improved to 0.718 accuracy and 0.712 macro F1-score. On the other hand, the segmented aggregated model substantially improved performance, achieving 0.789 accuracy and macro F1-scores of 0.790 (untuned) and 0.792 (tuned).
-\begin{figure}
+\begin{figure}[h]
 \centering
-\includegraphics[width=0.80\textwidth]{figures/segment_recording_level_confusion_matrix.png}
+\includegraphics[width=0.70\textwidth]{figures/segment_recording_level_confusion_matrix.png}
 \caption{Confusion matrix of the tuned segmented aggregated model on the held-out test set.}
 \label{fig:segmented-cm}
 \end{figure}
 
-The confusion matrices (Figures 4 and \ref{fig:segmented-cm}) reveal that \textit{Brachypteryx montana} and \textit{Dicrurus balicassius} were most frequently misclassified as \textit{Hypsipetes philippinus}. This may be due to acoustic overlap in the frequency range of their calls, as all three species produce mid-frequency vocalizations with similar temporal patterns. Additionally, the limited number of training samples for \textit{Brachypteryx montana} may have contributed to the model's difficulty in learning distinctive features for this species. 
+\FloatBarrier
+
+The confusion matrices (Figures 3 and \ref{fig:segmented-cm}) reveal that \textit{Brachypteryx montana} and \textit{Dicrurus balicassius} were most frequently misclassified as \textit{Hypsipetes philippinus}. This may be due to acoustic overlap in the frequency range of their calls, as all three species produce mid-frequency vocalizations with similar temporal patterns. Additionally, the limited number of training samples for \textit{Brachypteryx montana} may have contributed to the model's difficulty in learning distinctive features for this species. 
 
 Overall, the final accuracy of approximately 72\% for the baseline and 79\% for the segmented-level model suggests that local acoustic features captured in shorter segments may provide more information than global recording-level features. However, the confusion between certain species indicates that further feature engineering or additional data may be needed to better differentiate acoustically similar species.
 \section{Conclusion and Future Work}
