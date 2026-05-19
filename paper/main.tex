@@ -186,7 +186,7 @@ SVM-RBF tuned & 0.7503 \\
 \end{tabular}
 \end{table}
 
-Although hyperparameter tuning improved the cross-validation performance of the baseline models, the held-out test results remained moderate. This suggests that model performance was influenced not only by hyperparameter choice, but also by the limited size, variability, and recording-level representation of the available audio recordings. Larger improvements were later observed after applying segment-based feature extraction and recording-level aggregation.
+Although hyperparameter tuning improved the cross-validation performance of the baseline models, the held-out test results remained moderate. This suggests that model performance was influenced not only by hyperparameter choice, but also by the limited size, variability, and recording-level representation of the available audio recordings. Larger improvements were later observed after applying segment- feature extraction and recording-level aggregation.
 \subsection{Untuned Baseline Results}
 \begin{table}
 \centering
@@ -290,16 +290,17 @@ Overall, the segmented aggregated approach achieved an accuracy of 0.79 and a ma
 \label{tab:baseline-vs-segmented}
 \begin{tabular}{lccc}
 \toprule
-Experiment & Evaluation Level & Accuracy & Macro F1 \\
+Experiment & Accuracy & Macro F1 \\
 \midrule
-Baseline (XGBoost tuned) & recording & 0.718 & 0.712 \\
-Segmented aggregated (Extra Trees tuned) & recording & 0.789 & 0.792 \\
+Baseline recording untuned & 0.700 & 0.700 \\
+Baseline recording tuned (XGBoost) & 0.718 & 0.712 \\
+Segmented aggregated untuned & 0.789 & 0.790 \\
+Segmented aggregated tuned (Extra Trees) & 0.789 & 0.792 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:baseline-vs-segmented} compares the best baseline with the segmented aggregated model. The segmented approach improved accuracy from 71.8\% to 78.9\% and macro F1-score from 0.71 to 0.79.
-
+Table~\ref{tab:baseline-vs-segmented} compares the recording-level baseline and segmented aggregated models before and after hyperparameter tuning. The untuned baseline achieved an accuracy of 0.70 and a macro F1-score of 0.70, while the tuned baseline slightly improved to 0.718 accuracy and 0.712 macro F1-score. On the other hand, the segmented aggregated model substantially improved performance, achieving 0.789 accuracy and macro F1-scores of 0.790 (untuned) and 0.792 (tuned). These results suggest that segment-level feature extraction and aggregation preserved localized acoustic characteristics more effectively than global recording-level feature averaging.
 \begin{figure}
 \centering
 \includegraphics[width=0.80\textwidth]{figures/segment_recording_level_confusion_matrix.png}
