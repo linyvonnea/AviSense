@@ -1,0 +1,331 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{placeins}
+
+
+\begin{document}
+
+\title{Classification of Selected Philippine Bird Species Using Acoustic Features and Classical Machine Learning}
+\titlerunning{Philippine Bird Species Classification}
+
+\author{Emmanuel Albeza \and Yvonne Lin \and Christalie Pategara}
+\authorrunning{E. Albeza et al.}
+
+\institute{
+University of the Philippines Visayas\\
+\email{eaalbeza@up.edu.ph, yalin@up.edu.ph, chpategara@up.edu.ph}
+}
+
+\maketitle
+
+\begin{abstract}
+This study developed a classical machine learning approach for classifying selected Philippine bird species from audio recordings. Recordings were collected from the Xeno-canto bird sound repository and processed into standardized audio clips. Acoustic features, including Mel-frequency cepstral coefficients, spectral descriptors, and temporal features, were extracted and used to train traditional machine learning classifiers. The evaluated models included Logistic Regression, Support Vector Machine, Random Forest, Extra Trees, Gradient Boosting, K-Nearest Neighbors, and XGBoost. Results showed that tree-based ensemble models performed competitively in cross-validation. The final tuned segmented aggregated model achieved an accuracy of 0.789, approximately 79\%, and a macro F1-score of 0.792 on a held-out test set of 71 recordings. These results suggest that handcrafted acoustic features combined with classical machine learning can provide a feasible baseline for Philippine bird species classification, although performance remains limited by dataset size, recording noise, and species-level acoustic similarity.
+
+\keywords{bird sound classification \and acoustic features \and machine learning \and Philippine birds \and passive acoustic monitoring}
+\end{abstract}
+
+\section{Introduction}
+
+Bird vocalizations are an important source of information for biodiversity monitoring because many bird species can be detected through their calls and songs even when they are difficult to observe visually. Passive acoustic monitoring provides a non-invasive way to record animal sounds across different locations and time periods, allowing researchers to collect ecological information with less dependence on continuous human observation \cite{szymanski2021,biffi2024,mosikidi2023}. However, the manual identification of species from large volumes of audio recordings can be time-consuming and requires domain expertise.
+
+Automated bird sound classification can help address this challenge by using computational models to identify species from recorded vocalizations. Such systems may support biodiversity monitoring, ecological research, and assisted species identification. In the Philippine context, bird sound classification is especially relevant because the country has high avian diversity and many species of ecological interest. Developing computational tools for selected Philippine bird species can therefore contribute to broader efforts in biodiversity assessment and conservation-oriented monitoring.
+
+This study focused on the classification of selected Philippine bird species using handcrafted acoustic features and classical machine learning models. Audio recordings were obtained from the Xeno-canto repository, a public archive of wildlife sound recordings and associated metadata \cite{xenocanto}. The study extracted Mel-frequency cepstral coefficients (MFCCs), spectral features, and temporal features from the recordings. These features were then used to train and compare several traditional machine learning classifiers.
+
+The main objective of this study was to evaluate whether classical machine learning models using handcrafted audio features can provide a feasible baseline for selected Philippine bird species classification. Specifically, the study aimed to: (1) curate a dataset of selected Philippine bird species from Xeno-canto, (2) extract acoustic features from the audio recordings, (3) compare multiple classical machine learning classifiers, and (4) evaluate the final model using accuracy, precision, recall, macro F1-score, and a confusion matrix.
+
+\section{Related Work}
+
+Bird sound classification has been studied using both traditional machine learning and more recent deep learning approaches. Earlier works commonly used handcrafted acoustic features together with classifiers such as Support Vector Machines. Fagerlund \cite{fagerlund2007} showed that bird species recognition can be performed using low-level audio parameters and mel-cepstral features. These types of features are useful because they summarize the spectral and temporal characteristics of bird vocalizations in a numerical form that can be used by machine learning models. Unlike syllable-level segmentation approaches requiring manual annotation, this study adopted fixed-duration segmentation as an alternative to capture local acoustic patterns.
+
+Mel-frequency cepstral coefficients have been widely used in audio classification tasks because they represent the short-term spectral properties of sound in a compact feature vector. MFCCs are commonly used in speech and bioacoustic recognition tasks, including bird sound classification \cite{librosa_mfcc,fagerlund2007}. In bird classification, MFCCs can capture differences in frequency structure, timbre, and vocal patterns across species.
+
+Traditional machine learning models remain useful for small to medium-sized datasets because they are generally easier to train and interpret than deep neural networks. Models such as Logistic Regression, Support Vector Machines, Random Forest, Extra Trees, Gradient Boosting, K-Nearest Neighbors, and XGBoost can be trained on handcrafted audio features. Recent studies have also compared MFCC-based features with classifiers such as SVM and Random Forest for bird sound recognition tasks \cite{han2023}. These studies show that traditional models can still provide meaningful baselines, especially when the dataset size is limited.
+
+This study builds on previous work by applying classical machine learning models to selected Philippine bird species. Instead of using deep learning, the project focuses on a reproducible pipeline using curated audio recordings, handcrafted acoustic features, cross-validation, hyperparameter tuning, and held-out test evaluation.
+
+\section{Methodology}
+
+The study followed a structured machine learning workflow consisting of dataset collection, pre-processing, feature extraction, model training, hyperparameter tuning, segment-level extraction, localized feature extraction, majority voting, and final evaluation by comparing the performance between different models.
+
+\subsection{Dataset Collection}
+
+Audio recordings were collected from Xeno-canto, a public online repository of wildlife sound recordings \cite{xenocanto}. The dataset was limited to selected bird species with recordings associated with the Philippines. The species were selected based on recording availability, usability of audio quality, and class balance.
+
+The final classification task consisted of five Philippine bird species:
+
+\begin{itemize}
+    \item \textit{Hypsipetes philippinus}
+    \item \textit{Phapitreron leucotis}
+    \item \textit{Dicrurus balicassius}
+    \item \textit{Ninox philippensis}
+    \item \textit{Brachypteryx montana}
+\end{itemize}
+
+The dataset was prepared as a five-class classification problem. Metadata cleaning and filtering were performed to remove unusable or unidentified recordings. The curated dataset was then used for pre-processing and feature extraction.
+
+\subsection{Pre-processing}
+
+The raw audio recordings were standardized before feature extraction to reduce differences in file format, sampling rate, channel configuration, duration, and amplitude. Each recording was converted to mono-channel WAV format and resampled to 22{,}050 Hz. Silence trimming was applied to remove low-energy leading and trailing portions of the signal, and amplitude normalization was performed to reduce volume variation across recordings. Each clip was then adjusted to a fixed duration of 10 seconds by trimming longer recordings and padding shorter recordings when necessary.
+
+This pre-processing step was necessary because the Xeno-canto recordings were collected by different contributors using different recording devices and under varying environmental conditions. Standardizing the audio ensured that the extracted acoustic features were computed under consistent input conditions.
+
+\subsection{Feature Extraction}
+
+Acoustic features were extracted from each pre-processed 10-second audio clip using \texttt{librosa}. For each recording, 20 Mel-frequency cepstral coefficients (MFCCs) were computed, together with their first-order delta and second-order delta features. Additional spectral features were extracted, including spectral centroid, spectral bandwidth, spectral rolloff, and spectral contrast. Temporal and energy-based features, including zero-crossing rate, root mean square (RMS) energy, and duration, were also computed.
+
+Because these features vary over time, each feature sequence was summarized using four statistical descriptors: mean, standard deviation, minimum, and maximum. The resulting values were stored in a labeled feature table, where each row represented one audio recording and each column represented one numerical feature. The species name was used as the target label for model training.
+
+\subsection{Model Training}
+
+Seven classical machine learning classifiers were evaluated: Logistic Regression, Support Vector Machine with radial basis function kernel (SVM-RBF), Random Forest, Extra Trees, Gradient Boosting, K-Nearest Neighbors (KNN), and XGBoost. The feature table was split into training and held-out test sets using stratified sampling to preserve the class distribution. Model comparison was performed using stratified cross-validation on the training set.
+
+Performance was measured using accuracy, macro precision, macro recall, macro F1-score, and confusion matrices. Macro F1-score was used as the primary selection metric because the dataset was slightly imbalanced and all bird species were considered equally important \cite{sklearn_f1}. Hyperparameter tuning was then applied to selected high-performing models, specifically XGBoost, Extra Trees, Random Forest, and SVM-RBF. The final model was selected based on cross-validation performance and evaluated on the held-out test set.
+
+
+\subsection{Segment-Level Extraction}
+
+Inspired by syllable-based segmentation approaches in previous bird recognition studies \cite{fagerlund2007}, the processed audio clips were further divided into smaller segment units prior to feature extraction. Specifically, each processed 10-second audio clips were divided into overlapping segments of 5 seconds with a 2.5 second overlap. This approach allowed multiple local feature vectors to be extracted from each recording while preserving recording-level grouping during evaluation. Furthermore, each segment was treated as an independent training sample with the same species label as the original recording.
+
+\subsection{Time-Domain Features}
+
+In the segmented processing approach, the same MFCC, spectral, and temporal features were used as in the baseline. However, to better capture local acoustic characteristics, they were extracted independently for each segment to preserve local temporal structure. The extracted time-domain features includes:
+\begin{itemize}
+    \item \textbf{Signal energy} (RMS mean and standard deviation): measures the average energy of each segment and captures loudness variations across bird calls and silent intervals.
+
+    \item \textbf{Peak amplitude}: represents the maximum signal magnitude within a segment and identifies strong vocal events such as sharp calls or bursts.
+
+    \item \textbf{Dynamic range} (maximum minus minimum amplitude): quantifies the spread of signal amplitudes and helps differentiate highly variable calls from smoother vocalizations.
+
+    \item \textbf{Temporal variation} (signal standard deviation): measures amplitude fluctuations within a segment and captures changes in vocal intensity.
+
+    \item \textbf{Zero Crossing Rate (ZCR)}: counts waveform sign changes and helps distinguish tonal vocalizations from noisier or rapidly changing calls.
+\end{itemize}
+
+These features were extracted per segment without temporal averaging, preserving local acoustic structure.
+
+\subsection{Majority Voting}
+
+To allow fair comparison between the baseline and the segmented model, the aggregated segment-level predictions were converted back to recording-level using majority voting. Specifically, all segments from the same audio clip were grouped together, and the most frequently predicted species label among the segments became the final predicted label for the entire audio clip.
+
+\subsection{Final Comparison: Baseline vs. Segment-Level}
+
+The final comparison between the baseline model (trained on recording-level features) and the segmented model (trained on segment-level features with majority voting) was performed using the held-out test set. Both models were evaluated using the same test recordings, and their performance metrics were compared to assess whether segment-level feature extraction and classification provided any improvement over the baseline approach.
+
+\section{Results and Discussion}
+
+\subsection{Dataset Distribution}
+
+The final dataset contained 355 recordings from five Philippine bird species. As shown in Figure~\ref{fig:species-distribution}, the class distribution was moderately imbalanced, with \textit{Hypsipetes philippinus} having the most recordings and \textit{Brachypteryx montana} having the fewest. This imbalance supports the use of macro-averaged metrics in addition to accuracy.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.80\textwidth]{figures/species_distribution.png}
+\caption{Distribution of recordings across the selected Philippine bird species.}
+\label{fig:species-distribution}
+\end{figure}
+
+\subsection{Cross-Validation Results}
+
+Table~\ref{tab:cv-results} presents the stratified cross-validation results of the baseline models. Random Forest achieved the highest mean accuracy at 0.7539, while Extra Trees obtained the highest mean macro F1-score at 0.7475. Logistic Regression and XGBoost were also competitive, with macro F1-scores of 0.7471 and 0.7436, respectively. KNN produced the lowest performance, suggesting that distance-based classification was less effective for the extracted feature space.
+
+\begin{table}
+\centering
+\caption{Cross-validation results of baseline models.}
+\label{tab:cv-results}
+\begin{tabular}{lcc}
+\toprule
+Model & Mean Accuracy & Mean Macro F1-score \\
+\midrule
+Extra Trees & 0.7504 & 0.7475 \\
+Random Forest & 0.7539 & 0.7475 \\
+Logistic Regression & 0.7434 & 0.7471 \\
+XGBoost & 0.7434 & 0.7436 \\
+SVM-RBF & 0.7329 & 0.7382 \\
+Gradient Boosting & 0.7081 & 0.7073 \\
+KNN & 0.6306 & 0.6345 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:model-comparison} shows the model comparison based on macro F1-score. The close performance of Extra Trees, Random Forest, Logistic Regression, and XGBoost indicates that the extracted MFCC, spectral, and temporal features provided useful class-discriminative information. However, the relatively small gap among the top models also suggests that performance was constrained by dataset size and recording variability.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.90\textwidth]{figures/model_comparison.png}
+\caption{Cross-validation comparison of the evaluated machine learning models.}
+\label{fig:model-comparison}
+\end{figure}
+
+\subsection{Hyperparameter Tuning Results}
+
+Table~\ref{tab:tuning-results} summarizes the best macro F1-scores obtained after hyperparameter tuning. XGBoost achieved the highest tuned cross-validation macro F1-score of 0.7714 using a learning rate of 0.1, maximum depth of 4, 100 estimators, subsample value of 0.8, and colsample\_bytree value of 0.9. Extra Trees followed with a macro F1-score of 0.7622.
+
+\begin{table}
+\centering
+\caption{Hyperparameter tuning results.}
+\label{tab:tuning-results}
+\begin{tabular}{lc}
+\toprule
+Model & Best CV Macro F1-score \\
+\midrule
+XGBoost tuned & 0.7714 \\
+Extra Trees tuned & 0.7622 \\
+Random Forest tuned & 0.7537 \\
+SVM-RBF tuned & 0.7503 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Although hyperparameter tuning improved the cross-validation performance of the baseline models, the held-out test results remained moderate. This suggests that model performance was influenced not only by hyperparameter choice, but also by the limited size, variability, and recording-level representation of the available audio recordings. Larger improvements were later observed after applying segment- feature extraction and recording-level aggregation.
+\subsection{Untuned Baseline Results}
+\begin{table}[h]
+\centering
+\caption{Classification report of the untuned baseline model on the held-out test set.}
+\label{tab:untuned_baseline_report}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Species} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+\midrule
+Brachypteryx montana     & 0.83 & 0.42 & 0.56 & 12 \\
+Dicrurus balicassius     & 0.50 & 0.36 & 0.42 & 14 \\
+Hypsipetes philippinus   & 0.50 & 0.78 & 0.61 & 18 \\
+Ninox philippensis       & 1.00 & 0.92 & 0.96 & 12 \\
+Phapitreron leucotis     & 0.94 & 1.00 & 0.97 & 15 \\
+\midrule
+Accuracy & \multicolumn{3}{c}{0.70} & 71 \\
+Macro average & 0.75 & 0.69 & 0.70 & 71 \\
+Weighted average & 0.73 & 0.70 & 0.70 & 71 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+Table~\ref{tab:untuned_baseline_report} results show that the untuned baseline model achieved moderate classification performance, with an overall accuracy of 0.70 and macro F1-score of 0.70.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\linewidth]{figures/confusion_matrix.png}
+\caption{Confusion matrix of the untuned baseline model on the held-out test set.}
+\label{fig:baseline_cm}
+\end{figure}
+
+However, Figure~\ref{fig:baseline_cm} shows that several recordings of \textit{Brachypteryx montana} and \textit{Dicrurus balicassius} were misclassified as \textit{Hypsipetes philippinus}, suggesting that the global recording-level representation was not always sufficient to capture acoustic differences between some bird vocalizations.
+\subsection{Tuned Baseline Results}
+The tuned baseline model achieved an accuracy of 0.72 and a macro F1-score of 0.71 on the held-out test set of 71 recordings.
+\begin{table}
+\centering
+\caption{Classification report of the tuned baseline model on the held-out test set.}
+\label{tab:tuned_baseline_classification_report}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Species} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+\midrule
+Brachypteryx montana     & 0.70 & 0.58 & 0.64 & 12 \\
+Dicrurus balicassius     & 0.42 & 0.36 & 0.38 & 14 \\
+Hypsipetes philippinus   & 0.67 & 0.89 & 0.76 & 18 \\
+Ninox philippensis       & 1.00 & 0.83 & 0.91 & 12 \\
+Phapitreron leucotis     & 0.87 & 0.87 & 0.87 & 15 \\
+\midrule
+Accuracy                 & \multicolumn{3}{c}{0.72} & 71 \\
+Macro average            & 0.73 & 0.71 & 0.71 & 71 \\
+Weighted average         & 0.72 & 0.72 & 0.71 & 71 \\
+\bottomrule
+\end{tabular}
+\end{table}
+The model performed best on \textit{Ninox philippensis} and \textit{Phapitreron leucotis}, which achieved F1-scores of 0.91 and 0.87, respectively. Lower recall was observed for \textit{Brachypteryx montana} and \textit{Dicrurus balicassius}, indicating that several recordings from these classes were assigned to other species.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.80\textwidth]{figures/tuned_confusion_matrix.png}
+\caption{Confusion matrix of the tuned baseline model on the held-out test set.}
+\label{fig:tuned-baseline-confusion-matrix}
+\end{figure}
+
+\FloatBarrier
+The confusion matrix in Figure~\ref{fig:tuned-baseline-confusion-matrix} confirms that the tuned baseline model was more reliable for some species than others. Most recordings of \textit{Ninox philippensis} and \textit{Phapitreron leucotis} were classified correctly, while confusion was still observed between \textit{Dicrurus balicassius} and \textit{Brachypteryx montana}. These errors may be attributed to overlapping acoustic characteristics, background noise, recording-condition differences, and the limited number of training samples. Overall, the tuned baseline achieved an accuracy of approximately 72\%.
+\subsection{Untuned Segmented Aggregated Results}
+The untuned segmented aggregated model achieved better classification performance compared to the untuned baseline. Figure~\ref{fig:untuned_segment_cm} and Table~\ref{tab:untuned_segment_report} summarize the performance of the segmented aggregated model on the held-out test set.
+\begin{table}[h]
+\centering
+\caption{Classification report of the untuned segmented aggregated model on the held-out test set.}
+\label{tab:untuned_segment_report}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Species} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+\midrule
+Brachypteryx montana     & 1.00 & 0.67 & 0.80 & 12 \\
+Dicrurus balicassius     & 0.60 & 0.43 & 0.50 & 14 \\
+Hypsipetes philippinus   & 0.62 & 0.89 & 0.73 & 18 \\
+Ninox philippensis       & 1.00 & 1.00 & 1.00 & 12 \\
+Phapitreron leucotis     & 0.93 & 0.93 & 0.93 & 15 \\
+\midrule
+Accuracy & \multicolumn{3}{c}{0.79} & 71 \\
+Macro average & 0.83 & 0.78 & 0.79 & 71 \\
+Weighted average & 0.81 & 0.79 & 0.78 & 71 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\linewidth]{figures/segment_recording_level_confusion_matrix.png}
+\caption{Confusion matrix of the untuned segmented aggregated model on the held-out test set.}
+\label{fig:untuned_segment_cm}
+\end{figure}
+
+\FloatBarrier
+Overall, the segmented aggregated approach achieved an accuracy of 0.79 and a macro F1-score of 0.79, outperforming the untuned baseline. These results suggest that segment-based feature extraction preserved localized vocal characteristics that may have been diluted by recording-level feature averaging.
+
+\subsection{Tuned Segmented Aggregated Results}
+\begin{table}
+\centering
+\caption{Comparison of baseline and segmented-level models on the held-out test set.}
+\label{tab:baseline-vs-segmented}
+\begin{tabular}{lccc}
+\toprule
+Experiment & Accuracy & Macro F1 \\
+\midrule
+Baseline recording untuned & 0.700 & 0.700 \\
+Baseline recording tuned (XGBoost) & 0.718 & 0.712 \\
+Segmented aggregated untuned & 0.789 & 0.790 \\
+Segmented aggregated tuned (Extra Trees) & 0.789 & 0.792 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:baseline-vs-segmented} compares the recording-level baseline and segmented aggregated models before and after hyperparameter tuning. The untuned baseline achieved an accuracy of 0.70 and a macro F1-score of 0.70, while the tuned baseline slightly improved to 0.718 accuracy and 0.712 macro F1-score. On the other hand, the segmented aggregated model substantially improved performance, achieving 0.789 accuracy and macro F1-scores of 0.790 (untuned) and 0.792 (tuned).
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.70\textwidth]{figures/segment_recording_level_confusion_matrix.png}
+\caption{Confusion matrix of the tuned segmented aggregated model on the held-out test set.}
+\label{fig:segmented-cm}
+\end{figure}
+
+\FloatBarrier
+
+The confusion matrices (Figures 3 and \ref{fig:segmented-cm}) reveal that \textit{Brachypteryx montana} and \textit{Dicrurus balicassius} were most frequently misclassified as \textit{Hypsipetes philippinus}. This may be due to acoustic overlap in the frequency range of their calls, as all three species produce mid-frequency vocalizations with similar temporal patterns. Additionally, the limited number of training samples for \textit{Brachypteryx montana} may have contributed to the model's difficulty in learning distinctive features for this species. 
+
+Overall, the final accuracy of approximately 72\% for the baseline and 79\% for the segmented-level model suggests that local acoustic features captured in shorter segments may provide more information than global recording-level features. However, the confusion between certain species indicates that further feature engineering or additional data may be needed to better differentiate acoustically similar species.
+\section{Conclusion and Future Work}
+
+This study developed and evaluated a classical machine learning pipeline for classifying selected Philippine bird species from audio recordings. Recordings were collected from Xeno-canto, processed into standardized audio clips, and represented using handcrafted acoustic features such as MFCCs, spectral descriptors, and temporal features. Several traditional classifiers were compared, including Logistic Regression, SVM, Random Forest, Extra Trees, Gradient Boosting, K-Nearest Neighbors, and XGBoost. The tuned baseline model, using handcrafted acoustic features, achieved an accuracy of 71.8\% and a macro F1-score of 0.71 on a held-out test set of 71 recordings.
+
+To better capture local acoustic characteristics, the study also implemented a segment-level feature extraction approach (5-second segments with 2.5-second overlap), and applied majority voting to aggregate segment-level predictions back to recording-level. This tuned segmented aggregated model achieved an accuracy of 78.9\% and a macro F1-score of 0.79 on the same held-out test set, demonstrating that segment-level features can provide additional information for classification compared to recording-level features.
+
+The results showed that tree-based ensemble models performed competitively during cross-validation. Random Forest achieved the highest mean accuracy among the baseline models, while Extra Trees achieved the highest mean macro F1-score. After hyperparameter tuning, XGBoost obtained the highest cross-validation macro F1-score among the baseline models. On the other hand, the tuned segmented aggregated model, which is Extra Trees, achieved the best overall held-out test performance, with an accuracy of 0.789 and a macro F1-score of 0.792.
+
+These results demonstrate that segmentation with aggregation provides a fairer comparison and a more informative acoustic representation for bird audio classification when using handcrafted features. Furthermore, the improvement is particularly visible for species with short calls or vocalizations that were not well captured by the recording-level features. The confusion matrices revealed that certain species were more frequently misclassified, likely due to acoustic similarity and limited training samples.
+
+Future work may improve the system by increasing the number of recordings, adding more bird species, applying more advanced noise reduction, and using syllable-level or temporal modeling approaches. Deep learning models such as convolutional neural networks on mel spectrograms may also be explored and compared with the classical machine learning baseline developed in this study.
+
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}
