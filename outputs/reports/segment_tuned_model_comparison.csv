@@ -1,0 +1,5 @@
+model,best_cv_f1_macro,best_params
+extra_trees_segment_tuned,0.7484008797802522,"{'n_estimators': 900, 'min_samples_split': 2, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'max_depth': 20}"
+random_forest_segment_tuned,0.7314918532081149,"{'n_estimators': 300, 'min_samples_split': 10, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'max_depth': 30}"
+xgboost_segment_tuned,0.7177480927428581,"{'subsample': 0.8, 'reg_lambda': 10, 'n_estimators': 300, 'min_child_weight': 5, 'max_depth': 5, 'learning_rate': 0.05, 'colsample_bytree': 1.0}"
+svm_rbf_segment_tuned,0.7174790836513383,"{'model__gamma': 0.001, 'model__C': 100}"

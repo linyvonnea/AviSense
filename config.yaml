@@ -41,3 +41,8 @@ models:
   run_random_forest: true
   run_knn: true
   run_gradient_boosting: true
+
+segments:
+  segment_duration_seconds: 5
+  segment_overlap_seconds: 2.5
+  max_segments_per_recording: 3

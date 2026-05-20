@@ -1,0 +1,2 @@
+total_samples,correct_predictions,incorrect_predictions,accuracy,precision_macro,recall_macro,f1_macro,model,evaluation_level
+71,56,15,0.7887323943661971,0.8297435897435899,0.7834920634920636,0.7921212121212122,extra_trees_segment_tuned,recording_aggregated_from_segments
